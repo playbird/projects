@@ -1,0 +1,53 @@
+<div id="container">
+    <!-- populated by JS-->
+  </div>
+  <script src="./boston.js"></script><script>
+const topSalaries = [[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]];
+function renderPosts(boston, container) {
+  var people = boston.data;
+  const len = boston.data.length;
+  let html = '';
+    for (let i = 0; i < len; i++) {
+      html+=
+        'li class="post">' + '<h2>' + people[i][8] + '</h2>'+ '<h3>' + people[i][11] + '</h3>';
+    }   
+    container.innerHTML = '<ul id = "data">' + html + '</ul>';
+}
+  function renderTopSalaries(boston, container) {
+    var people = boston.data;
+    const len = topSalaries.length;
+    if (Number(people[i][11]) >= topSalaries[0][11]) {
+      topSalaries.unshift(people[i]);
+        topSalaries.pop();
+    } else if ((Number(people[i][11]) > topSalaries[1][11])) {
+        topSalaries.splice(1, 0, people[i]);
+        topSalaries.pop();
+    } else if ((Number(people[i][11]) > topSalaries[2][11])) {
+        topSalaries.splice(2, 0, people[i]);
+        topSalaries.pop();
+    } else if ((Number(people[i][11]) > topSalaries[3][11])) {
+        topSalaries.splice(3, 0, people[i]);
+        topSalaries.pop();
+    } else if ((Number(people[i][11]) > topSalaries[4][11])) {
+        topSalaries.splice(4, 1, people[i]);
+    } 
+      for (let i = 0; i < len; i++) {
+        html +=
+      '<li class="top">' +
+      '<h2>' +
+      topSalaries[i][8] +
+      '</h2>' +
+      '<h3>' +
+      topSalaries[i][11] +
+      '</h3>';
+      }
+      container.innerHTML += '<ul id = "topEmployees">' + html + '</ul>';
+  }
+
+
+  // TODO: add code to display the html variable inside a ul element with id="data"
+  // Hint: you can use the container parameter's innerHTML property to insert Html tags
+
+renderPosts(boston, document.getElementById('container'));
+
+</script>

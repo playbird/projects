@@ -1,0 +1,62 @@
+<div id="container">
+  <!-- populated by JS-->
+</div>
+<script src="./boston.js"></script>
+<script>
+  var html = '';
+  var topFive = [[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]];
+  var over100k = [];
+  var person = boston.data; // boston is an array
+  var len = boston.data.length;
+  function renderBoston(boston, container) {
+    for (let i = 0; i < len; i++) {
+      if (Number(person[i][11]) >= 100000) {
+        over100k.push(person[i]);
+        let fullName = over100k[0][8].split(',');
+        over100k[0][8] = fullName[0] + ', ' + fullName[1];
+      }
+      if (Number(person[i][11]) > topFive[0][11]) {
+        topFive.unshift(person[i]);
+        topFive.pop();
+        let fullName = topFive[0][8].split(',');
+        topFive[0][8] = fullName[0] + ', ' + fullName[1];
+        let sal = topFive[0][11]
+      } else if ((Number(person[i][11]) > topFive[1][11])) {
+        topFive.splice(1, 0, person[i]);
+        topFive.pop();
+        let fullName = topFive[1][8].split(',');
+        topFive[1][8] = fullName[0] + ', ' + fullName[1];
+      } else if ((Number(person[i][11]) > topFive[2][11])) {
+        topFive.splice(2, 0, person[i]);
+        topFive.pop();
+        let fullName = topFive[2][8].split(',');
+        topFive[2][8] = fullName[0] + ', ' + fullName[1];
+      } else if ((Number(person[i][11]) > topFive[3][11])) {
+        topFive.splice(3, 0, person[i]);
+        topFive.pop();
+        let fullName = topFive[3][8].split(',');
+        topFive[3][8] = fullName[0] + ', ' + fullName[1];
+      } else if ((Number(person[i][11]) > topFive[4][11])) {
+        topFive.splice(4, 1, person[i]);
+        let fullName = topFive[4][8].split(',');
+        topFive[4][8] = fullName[0] + ', ' + fullName[1];
+      }
+      
+    } 
+    
+    
+     html += '<body class="boston">' +
+        '<h1>' + 'Boston Salary Data' + '</h1>' +
+        '<h2>' + 'Top Five Earners:' + '</h2>' +
+          '<p>' + 'Name: ' + topFive[0][8] + '&emsp;Salary: $' + topFive[0][11] + '</p>' +
+          '<p>' + 'Name: ' + topFive[1][8] + '&emsp;Salary: $' + topFive[1][11] + '</p>' +
+          '<p>' + 'Name: ' + topFive[2][8] + '&emsp;Salary: $' + topFive[2][11] + '</p>' +
+          '<p>' + 'Name: ' + topFive[3][8] + '&emsp;Salary: $' + topFive[3][11] + '</p>' +
+          '<p>' + 'Name: ' + topFive[4][8] + '&emsp;Salary: $' + topFive[4][11] + '</p>' +
+        '<h2>' + 'Number of Over 100K Earners:' + '</h2>' +
+        '<p>' + over100k.length + '</p>' +
+      '</body>'
+    container.innerHTML = '<ul id = "boston">' + html + '</ul>';
+  }
+  renderBoston(boston, document.getElementById('container'));
+</script>
