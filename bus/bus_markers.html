@@ -1,0 +1,64 @@
+
+<head>
+    <style>
+    body {margin: 0; padding: 0;}
+    #map {height: 100%; width: 100%;}
+    </style>	
+</head>
+    <h1>Bus Stops</h1>
+    <div>
+        <button style="font-size: 2em;" onclick="move()">Show stops between MIT and Harvard</button>
+    </div>
+    <div id="map"></div>
+    	
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCaAxml_vaKKEk1Tl3WMitilFgTvpA3BXg&callback=initMap"></script>
+
+<script>
+    var busStops = [];
+    var  marker = new google.maps.Marker({
+            position: {
+	    	    lat: busStops[counter].attributes.latitude, 
+	    	    lng: busStops[counter].attributes.longitude
+	        },
+            map: map
+	        }); 
+    function initMap() {
+		let	focus = {lat: 42.36070829242685, lng: -71.094039433833342};
+		let map = new google.maps.Map(
+			document.getElementById('map'), {zoom: 14, center: focus}
+		);	
+	}
+
+    async function run(){
+        busStops = await getBusLocations();
+        console.log(new Date());
+        console.log(busStops);
+    } 
+ 
+    async function getBusLocations(){
+    const url = 'https://api-v3.mbta.com/vehicles?filter[route]=1&include=trip';
+    const response = await fetch(url);
+    const json = await response.json();
+    return json.data;
+ }
+    
+    var counter = 0;
+   
+
+    function move(){
+        setTimeout(() =>{
+            if (counter >= busStops.length) return;
+            marker = new google.maps.Marker({
+	            position: {
+	    	        lat: busStops[counter].attributes.latitude, 
+	    	        lng: busStops[counter].attributes.longitude
+	            },
+                map: map
+	        });
+        counter++;
+        move();
+        }, 15000);
+    }
+ run();
+
+</script>
